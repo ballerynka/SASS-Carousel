@@ -1,0 +1,83 @@
+$darkcolor: #222;
+$cols: 16;
+$rows: 12;
+$size: 50px;
+@mixin center {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  margin: auto;
+}
+body {
+  background-color: $darkcolor;
+  color: lawngreen;
+}
+
+.carousel {
+  width: $cols * $size;
+  height: $rows * $size;
+  text-align: center;
+  @include center;
+  .slide {
+    display: grid;
+    grid-template-columns: repeat($cols, $size);
+    grid-template-rows: repeat($rows, $size);
+    width: inherit;
+    height: inherit;
+    //align-items: center;
+
+    $offX: 0;
+    $offY: 0;
+    @for $n from 1 through 192 {
+      & > div:nth-child(#{$n}) {
+        background-position-x: $offX * -$size;
+        background-position-y: $offY * -$size;
+        background-image: url(images/img1.webp);
+        animation: fadeOut 3s infinite;
+        /////////////////////////////////////////
+        //animation-delay: 1s * $offX / $rows;
+        ////////////////////////////////////////
+        //animation-delay: 1s * ($offX / $cols + $offY / $rows);
+        ////////////////////////////////////////
+        animation-delay: 0.1s * random(10);
+      }
+      $offX: $offX + 1;
+      @if $offX % $cols == 0 {
+        $offX: 0;
+        $offY: $offY + 1;
+      }
+    }
+    @keyframes fadeOut {
+      0% {
+        background-image: url(images/img1.webp);
+      }
+      33% {
+        background-image: url(images/img2.jpeg);
+      }
+      66% {
+        background-image: url(images/img3.png);
+      }
+    }
+    /* & > div:nth-child(1) {
+      background-image: url(images/img1.webp);
+    }
+    & > div:nth-child(2) {
+      background-image: url(images/img1.webp);
+      background-position-x: -$size;
+    }
+    & > div:nth-child(3) {
+      background-image: url(images/img1.webp);
+      background-position-x: -2 * $size;
+    }
+    & > div:nth-child(9) {
+      background-image: url(images/img1.webp);
+      background-position-y: -$size;
+    }
+    & > div:nth-child(17) {
+      background-image: url(images/img1.webp);
+      background-position-y: -2 * $size;
+    }*/
+  }
+}
